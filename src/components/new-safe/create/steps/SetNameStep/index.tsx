@@ -13,9 +13,10 @@ import useIsWrongChain from '@/hooks/useIsWrongChain'
 import NetworkWarning from '@/components/new-safe/create/NetworkWarning'
 import NameInput from '@/components/common/NameInput'
 import { CREATE_SAFE_EVENTS, trackEvent } from '@/services/analytics'
-import { AppRoutes } from '@/config/routes'
+// import { AppRoutes } from '@/config/routes'
 import MUILink from '@mui/material/Link'
-import Link from 'next/link'
+// import Link from 'next/link'
+import ExternalLink from '@/components/common/ExternalLink'
 
 type SetNameStepForm = {
   name: string
@@ -95,13 +96,13 @@ function SetNameStep({
           </Grid>
           <Typography variant="body2" mt={2}>
             By continuing, you agree to our{' '}
-            <Link href={AppRoutes.terms} passHref>
+            <ExternalLink noIcon href={'https://scroll.io/terms-and-conditions'}>
               <MUILink>terms of use</MUILink>
-            </Link>{' '}
+            </ExternalLink>{' '}
             and{' '}
-            <Link href={AppRoutes.privacy} passHref>
+            <ExternalLink noIcon href={'https://scroll.io/privacy-policy'}>
               <MUILink>privacy policy</MUILink>
-            </Link>
+            </ExternalLink>
             .
           </Typography>
 

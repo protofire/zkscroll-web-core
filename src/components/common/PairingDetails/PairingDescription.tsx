@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material'
 import type { ReactElement } from 'react'
 
-import AppStoreButton from '@/components/common/AppStoreButton'
+// import AppStoreButton from '@/components/common/AppStoreButton'
 import ExternalLink from '../ExternalLink'
 
 const HELP_ARTICLE = 'https://help.safe.global/en/articles/5584901-desktop-pairing'
@@ -17,7 +17,7 @@ const PairingDescription = (): ReactElement => {
         </ExternalLink>
       </Typography>
 
-      <AppStoreButton placement="pairing" />
+      {/* <AppStoreButton placement="pairing" /> */}
     </>
   )
 }

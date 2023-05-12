@@ -1,13 +1,12 @@
-import type { SyntheticEvent, ReactElement } from 'react'
+import type { ReactElement } from 'react'
 import { Typography } from '@mui/material'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import css from './styles.module.css'
 import { useAppDispatch } from '@/store'
-import { openCookieBanner } from '@/store/popupSlice'
+// import { openCookieBanner } from '@/store/popupSlice'
 import { AppRoutes } from '@/config/routes'
 import packageJson from '../../../../package.json'
-import AppstoreButton from '../AppStoreButton'
 import ExternalLink from '../ExternalLink'
 import MUILink from '@mui/material/Link'
 
@@ -29,10 +28,10 @@ const Footer = (): ReactElement | null => {
     return null
   }
 
-  const onCookieClick = (e: SyntheticEvent) => {
-    e.preventDefault()
-    dispatch(openCookieBanner({}))
-  }
+  // const onCookieClick = (e: SyntheticEvent) => {
+  //   e.preventDefault()
+  //   dispatch(openCookieBanner({}))
+  // }
 
   return (
     <footer className={css.container}>
@@ -41,14 +40,14 @@ const Footer = (): ReactElement | null => {
           <Typography variant="caption">&copy;2022–{new Date().getFullYear()} Safe Ecosystem Foundation</Typography>
         </li>
         <li>
-          <Link href={AppRoutes.terms} passHref>
+          <ExternalLink noIcon href="https://scroll.io/terms-and-conditions">
             <MUILink>Terms</MUILink>
-          </Link>
+          </ExternalLink>
         </li>
         <li>
-          <Link href={AppRoutes.privacy} passHref>
+          <ExternalLink noIcon href="https://scroll.io/privacy-policy">
             <MUILink>Privacy</MUILink>
-          </Link>
+          </ExternalLink>
         </li>
         <li>
           <Link href={AppRoutes.licenses} passHref>
@@ -60,7 +59,7 @@ const Footer = (): ReactElement | null => {
             <MUILink>Imprint</MUILink>
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link href={AppRoutes.cookie} passHref>
             <MUILink>Cookie Policy</MUILink>
           </Link>
@@ -68,15 +67,15 @@ const Footer = (): ReactElement | null => {
           <Link href="#" passHref>
             <MUILink onClick={onCookieClick}>Preferences</MUILink>
           </Link>
-        </li>
+        </li> */}
         <li>
           <ExternalLink noIcon href={`${packageJson.homepage}/releases/tag/v${packageJson.version}`}>
             v{packageJson.version}
           </ExternalLink>
         </li>
-        <li>
+        {/* <li>
           <AppstoreButton placement="footer" />
-        </li>
+        </li> */}
       </ul>
     </footer>
   )
