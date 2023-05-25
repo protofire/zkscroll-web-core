@@ -54,12 +54,13 @@ const Footer = (): ReactElement | null => {
             <MUILink>Licenses</MUILink>
           </Link>
         </li>
+        {/* 
         <li>
           <Link href={AppRoutes.imprint} passHref>
             <MUILink>Imprint</MUILink>
           </Link>
         </li>
-        {/* <li>
+        <li>
           <Link href={AppRoutes.cookie} passHref>
             <MUILink>Cookie Policy</MUILink>
           </Link>
