@@ -50,7 +50,7 @@ const ReviewStep = ({ data, onSubmit, onBack, setStep }: StepRenderProps<NewSafe
     }
   }, [data.owners, data.threshold, saltNonce])
 
-  const { gasLimit } = useEstimateSafeCreationGas(safeParams)
+  const { gasLimit, gasLimitError, gasLimitLoading } = useEstimateSafeCreationGas(safeParams)
 
   const totalFee =
     gasLimit && maxFeePerGas && maxPriorityFeePerGas
@@ -162,8 +162,13 @@ const ReviewStep = ({ data, onSubmit, onBack, setStep }: StepRenderProps<NewSafe
           <Button variant="outlined" size="small" onClick={handleBack} startIcon={<ArrowBackIcon fontSize="small" />}>
             Back
           </Button>
-          <Button onClick={createSafe} variant="contained" size="stretched" disabled={isWrongChain}>
-            Next
+          <Button
+            onClick={createSafe}
+            variant="contained"
+            size="stretched"
+            disabled={isWrongChain || Boolean(gasLimitError) || gasLimitLoading}
+          >
+            {Boolean(gasLimitError) ? 'Not enough funds' : 'Next'}
           </Button>
         </Box>
       </Box>
