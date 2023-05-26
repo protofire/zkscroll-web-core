@@ -53,8 +53,8 @@ const ReviewStep = ({ data, onSubmit, onBack, setStep }: StepRenderProps<NewSafe
   const { gasLimit, gasLimitError, gasLimitLoading } = useEstimateSafeCreationGas(safeParams)
 
   const totalFee =
-    gasLimit && maxFeePerGas && maxPriorityFeePerGas
-      ? formatVisualAmount(maxFeePerGas.add(maxPriorityFeePerGas).mul(gasLimit), chain?.nativeCurrency.decimals)
+    gasLimit && maxFeePerGas //&& maxPriorityFeePerGas
+      ? formatVisualAmount(maxFeePerGas.add(maxPriorityFeePerGas || 0).mul(gasLimit), chain?.nativeCurrency.decimals)
       : '> 0.001'
 
   const handleBack = () => {
