@@ -61,7 +61,7 @@ const NewSafe = () => {
             color="static.main"
             mb={1}
           >
-            Welcome to the zkScroll Safe
+            Welcome to Scroll Safe
           </Typography>
 
           <Typography mb={5} color="static.main">

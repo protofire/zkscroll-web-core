@@ -28,6 +28,7 @@
 
 .logo svg {
   width: auto;
+  height: 60px;
   display: block;
   color: var(--color-logo-main);
 }
