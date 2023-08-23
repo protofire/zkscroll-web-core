@@ -61,7 +61,7 @@ const NewSafe = () => {
             color="static.main"
             mb={1}
           >
-            Welcome to Scroll Safe
+            Welcome to Safe on Scroll
           </Typography>
 
           <Typography mb={5} color="static.main">
