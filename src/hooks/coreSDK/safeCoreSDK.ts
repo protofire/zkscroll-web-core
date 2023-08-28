@@ -1,10 +1,10 @@
 import chains from '@/config/chains'
-import { getWeb3 } from '@/hooks/wallets/web3'
+import { getWeb3ReadOnly } from '@/hooks/wallets/web3'
 import { getSafeSingletonDeployment, getSafeL2SingletonDeployment } from '@safe-global/safe-deployments'
 import ExternalStore from '@/services/ExternalStore'
 import { Gnosis_safe__factory } from '@/types/contracts'
 import { invariant } from '@/utils/helpers'
-import type { JsonRpcProvider } from '@ethersproject/providers'
+import type { JsonRpcProvider, Web3Provider } from '@ethersproject/providers'
 import Safe from '@safe-global/safe-core-sdk'
 import type { SafeVersion } from '@safe-global/safe-core-sdk-types'
 import EthersAdapter from '@safe-global/safe-ethers-lib'
@@ -25,14 +25,10 @@ export const isValidSafeVersion = (safeVersion?: SafeInfo['version']): safeVersi
 
 // `assert` does not work with arrow functions
 export function assertValidSafeVersion<T extends SafeInfo['version']>(safeVersion?: T): asserts safeVersion {
-  return invariant(isValidSafeVersion(safeVersion), `${safeVersion} is not a valid Safe version`)
+  return invariant(isValidSafeVersion(safeVersion), `${safeVersion} is not a valid Safe Account version`)
 }
 
-export const createEthersAdapter = (provider = getWeb3()) => {
-  if (!provider) {
-    throw new Error('Unable to create `EthersAdapter` without a provider')
-  }
-
+export const createEthersAdapter = (provider: Web3Provider) => {
   const signer = provider.getSigner(0)
   return new EthersAdapter({
     ethers,
@@ -40,7 +36,7 @@ export const createEthersAdapter = (provider = getWeb3()) => {
   })
 }
 
-const createReadOnlyEthersAdapter = (provider: JsonRpcProvider) => {
+export const createReadOnlyEthersAdapter = (provider = getWeb3ReadOnly()) => {
   if (!provider) {
     throw new Error('Unable to create `EthersAdapter` without a provider')
   }
@@ -51,23 +47,37 @@ const createReadOnlyEthersAdapter = (provider: JsonRpcProvider) => {
   })
 }
 
+type SafeCoreSDKProps = {
+  provider: JsonRpcProvider
+  chainId: SafeInfo['chainId']
+  address: SafeInfo['address']['value']
+  version: SafeInfo['version']
+  implementationVersionState: SafeInfo['implementationVersionState']
+  implementation: SafeInfo['implementation']['value']
+}
+
 // Safe Core SDK
-export const initSafeSDK = async (provider: JsonRpcProvider, safe: SafeInfo): Promise<Safe | undefined> => {
-  const chainId = safe.chainId
-  const safeAddress = safe.address.value
-  const safeVersion = safe.version ?? (await Gnosis_safe__factory.connect(safeAddress, provider).VERSION())
+export const initSafeSDK = async ({
+  provider,
+  chainId,
+  address,
+  version,
+  implementationVersionState,
+  implementation,
+}: SafeCoreSDKProps): Promise<Safe | undefined> => {
+  const safeVersion = version ?? (await Gnosis_safe__factory.connect(address, provider).VERSION())
 
   let isL1SafeMasterCopy = chainId === chains.eth
 
   // If it is an official deployment we should still initiate the safeSDK
-  if (!isValidMasterCopy(safe)) {
-    const masterCopy = safe.implementation.value
+  if (!isValidMasterCopy(implementationVersionState)) {
+    const masterCopy = implementation
 
     const safeL1Deployment = getSafeSingletonDeployment({ network: chainId, version: safeVersion })
     const safeL2Deployment = getSafeL2SingletonDeployment({ network: chainId, version: safeVersion })
 
-    isL1SafeMasterCopy = masterCopy === safeL1Deployment?.defaultAddress
-    const isL2SafeMasterCopy = masterCopy === safeL2Deployment?.defaultAddress
+    isL1SafeMasterCopy = masterCopy === safeL1Deployment?.networkAddresses[chainId]
+    const isL2SafeMasterCopy = masterCopy === safeL2Deployment?.networkAddresses[chainId]
 
     // Unknown deployment, which we do not want to support
     if (!isL1SafeMasterCopy && !isL2SafeMasterCopy) {
@@ -82,7 +92,7 @@ export const initSafeSDK = async (provider: JsonRpcProvider, safe: SafeInfo): Pr
 
   return Safe.create({
     ethAdapter: createReadOnlyEthersAdapter(provider),
-    safeAddress,
+    safeAddress: address,
     isL1SafeMasterCopy,
   })
 }

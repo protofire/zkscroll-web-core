@@ -13,15 +13,15 @@ import { EthersTxReplacedReason } from '@/utils/ethers-utils'
 import { SafeCreationStatus } from '@/components/new-safe/create/steps/StatusStep/useSafeCreation'
 import { type ChainInfo } from '@safe-global/safe-gateway-typescript-sdk'
 import { hexZeroPad } from 'ethers/lib/utils'
-import * as sponsoredCall from '@/services/tx/sponsoredCall'
+import * as relaying from '@/services/tx/relaying'
 import {
   Gnosis_safe__factory,
   Proxy_factory__factory,
-} from '@/types/contracts/factories/@gnosis.pm/safe-deployments/dist/assets/v1.3.0'
+} from '@/types/contracts/factories/@safe-global/safe-deployments/dist/assets/v1.3.0'
 import {
-  getFallbackHandlerContractInstance,
-  getGnosisSafeContractInstance,
-  getProxyFactoryContractInstance,
+  getReadOnlyFallbackHandlerContract,
+  getReadOnlyGnosisSafeContract,
+  getReadOnlyProxyFactoryContract,
 } from '@/services/contracts/safeContracts'
 
 const provider = new JsonRpcProvider(undefined, { name: 'rinkeby', chainId: 4 })
@@ -49,7 +49,7 @@ describe('checkSafeCreationTx', () => {
   beforeEach(() => {
     jest.resetAllMocks()
 
-    jest.spyOn(web3, 'getWeb3').mockImplementation(() => new Web3Provider(jest.fn()))
+    jest.spyOn(web3, 'getWeb3ReadOnly').mockImplementation(() => new Web3Provider(jest.fn()))
 
     waitForTxSpy = jest.spyOn(provider, '_waitForTransaction')
     jest.spyOn(provider, 'getBlockNumber').mockReturnValue(Promise.resolve(4))
@@ -226,20 +226,20 @@ describe('createNewSafeViaRelayer', () => {
   } as ChainInfo
 
   it('returns taskId if create Safe successfully relayed', async () => {
-    const sponsoredCallSpy = jest.spyOn(sponsoredCall, 'sponsoredCall').mockResolvedValue({ taskId: '0x123' })
+    const sponsoredCallSpy = jest.spyOn(relaying, 'sponsoredCall').mockResolvedValue({ taskId: '0x123' })
 
     const expectedSaltNonce = 69
     const expectedThreshold = 1
-    const proxyFactoryAddress = getProxyFactoryContractInstance('5').getAddress()
-    const fallbackHandlerDeployment = getFallbackHandlerContractInstance('5')
-    const safeContractAddress = getGnosisSafeContractInstance(mockChainInfo).getAddress()
+    const proxyFactoryAddress = getReadOnlyProxyFactoryContract('5').getAddress()
+    const readOnlyFallbackHandlerContract = getReadOnlyFallbackHandlerContract('5')
+    const safeContractAddress = getReadOnlyGnosisSafeContract(mockChainInfo).getAddress()
 
     const expectedInitializer = Gnosis_safe__factory.createInterface().encodeFunctionData('setup', [
       [owner1, owner2],
       expectedThreshold,
       ZERO_ADDRESS,
       EMPTY_DATA,
-      fallbackHandlerDeployment.getAddress(),
+      readOnlyFallbackHandlerContract.getAddress(),
       ZERO_ADDRESS,
       0,
       ZERO_ADDRESS,
@@ -265,7 +265,7 @@ describe('createNewSafeViaRelayer', () => {
   it('should throw an error if relaying fails', () => {
     const relayFailedError = new Error('Relay failed')
 
-    jest.spyOn(sponsoredCall, 'sponsoredCall').mockRejectedValue(relayFailedError)
+    jest.spyOn(relaying, 'sponsoredCall').mockRejectedValue(relayFailedError)
 
     expect(relaySafeCreation(mockChainInfo, [owner1, owner2], 1, 69)).rejects.toEqual(relayFailedError)
   })

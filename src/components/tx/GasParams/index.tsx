@@ -1,11 +1,13 @@
 import type { ReactElement, SyntheticEvent } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Skeleton, Typography, Link, Grid } from '@mui/material'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useCurrentChain } from '@/hooks/useChains'
 import { formatVisualAmount } from '@/utils/formatters'
 import { type AdvancedParameters } from '../AdvancedParams/types'
 import { trackEvent, MODALS_EVENTS } from '@/services/analytics'
 import classnames from 'classnames'
 import css from './styles.module.css'
+import accordionCss from '@/styles/accordion.module.css'
 
 const GasDetail = ({ name, value, isLoading }: { name: string; value: string; isLoading: boolean }): ReactElement => {
   const valueSkeleton = <Skeleton variant="text" sx={{ minWidth: '5em' }} />
@@ -62,8 +64,12 @@ const GasParams = ({
   }
 
   return (
-    <Accordion elevation={0} onChange={onChangeExpand} className={classnames({ [css.accordionSponsored]: willRelay })}>
-      <AccordionSummary>
+    <Accordion
+      elevation={0}
+      onChange={onChangeExpand}
+      className={classnames({ [css.withExecutionMethod]: isExecution })}
+    >
+      <AccordionSummary expandIcon={<ExpandMoreIcon />} className={accordionCss.accordion}>
         {isExecution ? (
           <Typography display="flex" alignItems="center" justifyContent="space-between" width={1}>
             <span>Estimated fee </span>
@@ -88,7 +94,9 @@ const GasParams = ({
       </AccordionSummary>
 
       <AccordionDetails>
-        {nonce !== undefined && <GasDetail isLoading={false} name="Safe transaction nonce" value={nonce.toString()} />}
+        {nonce !== undefined && (
+          <GasDetail isLoading={false} name="Safe Account transaction nonce" value={nonce.toString()} />
+        )}
 
         {!!safeTxGas && <GasDetail isLoading={false} name="safeTxGas" value={safeTxGas.toString()} />}
 

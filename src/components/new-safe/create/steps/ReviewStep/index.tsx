@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Button, Grid, Typography, Divider, Box } from '@mui/material'
 import { lightPalette } from '@safe-global/safe-react-components'
 import ChainIndicator from '@/components/common/ChainIndicator'
@@ -11,20 +11,21 @@ import type { StepRenderProps } from '@/components/new-safe/CardStepper/useCardS
 import type { NewSafeFormData } from '@/components/new-safe/create'
 import css from '@/components/new-safe/create/steps/ReviewStep/styles.module.css'
 import layoutCss from '@/components/new-safe/create/styles.module.css'
-import { getFallbackHandlerContractInstance } from '@/services/contracts/safeContracts'
+import { getReadOnlyFallbackHandlerContract } from '@/services/contracts/safeContracts'
 import { computeNewSafeAddress } from '@/components/new-safe/create/logic'
 import useWallet from '@/hooks/wallets/useWallet'
 import { useWeb3 } from '@/hooks/wallets/web3'
-import useLocalStorage from '@/services/local-storage/useLocalStorage'
-import { type PendingSafeData, SAFE_PENDING_CREATION_STORAGE_KEY } from '@/components/new-safe/create/steps/StatusStep'
 import useSyncSafeCreationStep from '@/components/new-safe/create/useSyncSafeCreationStep'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import NetworkWarning from '@/components/new-safe/create/NetworkWarning'
 import useIsWrongChain from '@/hooks/useIsWrongChain'
 import ReviewRow from '@/components/new-safe/ReviewRow'
-import SponsoredBy from '@/components/tx/SponsoredBy'
+import { ExecutionMethodSelector, ExecutionMethod } from '@/components/tx/ExecutionMethodSelector'
 import { useLeastRemainingRelays } from '@/hooks/useRemainingRelays'
 import classnames from 'classnames'
+import { hasRemainingRelays } from '@/utils/relaying'
+//import { BigNumber } from 'ethers'
+import { usePendingSafe } from '../StatusStep/usePendingSafe'
 
 const ReviewStep = ({ data, onSubmit, onBack, setStep }: StepRenderProps<NewSafeFormData>) => {
   const isWrongChain = useIsWrongChain()
@@ -32,15 +33,17 @@ const ReviewStep = ({ data, onSubmit, onBack, setStep }: StepRenderProps<NewSafe
   const chain = useCurrentChain()
   const wallet = useWallet()
   const provider = useWeb3()
-  const { maxFeePerGas, maxPriorityFeePerGas } = useGasPrice()
+  const [gasPrice] = useGasPrice()
   const saltNonce = useMemo(() => Date.now(), [])
-  const [_, setPendingSafe] = useLocalStorage<PendingSafeData | undefined>(SAFE_PENDING_CREATION_STORAGE_KEY)
+  const [_, setPendingSafe] = usePendingSafe()
+  const [executionMethod, setExecutionMethod] = useState(ExecutionMethod.RELAY)
 
   const ownerAddresses = useMemo(() => data.owners.map((owner) => owner.address), [data.owners])
   const [minRelays] = useLeastRemainingRelays(ownerAddresses)
 
-  // Chain supports relaying and relay transactions are available
-  const willRelay = !!minRelays
+  // Every owner has remaining relays and relay method is selected
+  const canRelay = hasRemainingRelays(minRelays)
+  const willRelay = canRelay && executionMethod === ExecutionMethod.RELAY
 
   const safeParams = useMemo(() => {
     return {
@@ -50,10 +53,13 @@ const ReviewStep = ({ data, onSubmit, onBack, setStep }: StepRenderProps<NewSafe
     }
   }, [data.owners, data.threshold, saltNonce])
 
-  const { gasLimit, gasLimitError, gasLimitLoading } = useEstimateSafeCreationGas(safeParams)
+  const { gasLimit } = useEstimateSafeCreationGas(safeParams)
+
+  const maxFeePerGas = gasPrice?.maxFeePerGas
+  const maxPriorityFeePerGas = gasPrice?.maxPriorityFeePerGas
 
   const totalFee =
-    gasLimit && maxFeePerGas //&& maxPriorityFeePerGas
+    gasLimit && maxFeePerGas // && maxPriorityFeePerGas
       ? formatVisualAmount(maxFeePerGas.add(maxPriorityFeePerGas || 0).mul(gasLimit), chain?.nativeCurrency.decimals)
       : '> 0.001'
 
@@ -64,13 +70,13 @@ const ReviewStep = ({ data, onSubmit, onBack, setStep }: StepRenderProps<NewSafe
   const createSafe = async () => {
     if (!wallet || !provider || !chain) return
 
-    const fallbackHandler = getFallbackHandlerContractInstance(chain.chainId)
+    const readOnlyFallbackHandlerContract = getReadOnlyFallbackHandlerContract(chain.chainId)
 
     const props = {
       safeAccountConfig: {
         threshold: data.threshold,
         owners: data.owners.map((owner) => owner.address),
-        fallbackHandler: fallbackHandler.getAddress(),
+        fallbackHandler: readOnlyFallbackHandlerContract.getAddress(),
       },
       safeDeploymentConfig: {
         saltNonce: saltNonce.toString(),
@@ -79,8 +85,15 @@ const ReviewStep = ({ data, onSubmit, onBack, setStep }: StepRenderProps<NewSafe
 
     const safeAddress = await computeNewSafeAddress(provider, props)
 
-    setPendingSafe({ ...data, saltNonce, safeAddress })
-    onSubmit({ ...data, saltNonce, safeAddress, willRelay })
+    const pendingSafe = {
+      ...data,
+      saltNonce,
+      safeAddress,
+      willRelay,
+    }
+
+    setPendingSafe(pendingSafe)
+    onSubmit(pendingSafe)
   }
 
   return (
@@ -121,8 +134,22 @@ const ReviewStep = ({ data, onSubmit, onBack, setStep }: StepRenderProps<NewSafe
 
       <Divider />
       <Box className={layoutCss.row}>
-        <Grid item xs={12}>
-          <Grid container spacing={3}>
+        <Grid container xs={12} spacing={3}>
+          {canRelay && (
+            <Grid item container spacing={3}>
+              <ReviewRow
+                name="Execution method"
+                value={
+                  <ExecutionMethodSelector
+                    executionMethod={executionMethod}
+                    setExecutionMethod={setExecutionMethod}
+                    relays={minRelays}
+                  />
+                }
+              />
+            </Grid>
+          )}
+          <Grid item container spacing={3}>
             <ReviewRow
               name="Est. network fee"
               value={
@@ -150,7 +177,6 @@ const ReviewStep = ({ data, onSubmit, onBack, setStep }: StepRenderProps<NewSafe
                 </>
               }
             />
-            {willRelay ? <ReviewRow name="" value={<SponsoredBy remainingRelays={minRelays} />} /> : null}
           </Grid>
         </Grid>
 
@@ -162,13 +188,8 @@ const ReviewStep = ({ data, onSubmit, onBack, setStep }: StepRenderProps<NewSafe
           <Button variant="outlined" size="small" onClick={handleBack} startIcon={<ArrowBackIcon fontSize="small" />}>
             Back
           </Button>
-          <Button
-            onClick={createSafe}
-            variant="contained"
-            size="stretched"
-            disabled={isWrongChain || Boolean(gasLimitError) || gasLimitLoading}
-          >
-            {Boolean(gasLimitError) ? 'Not enough funds' : 'Next'}
+          <Button onClick={createSafe} variant="contained" size="stretched" disabled={isWrongChain}>
+            Next
           </Button>
         </Box>
       </Box>

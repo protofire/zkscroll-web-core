@@ -33,6 +33,10 @@
   color: var(--color-logo-main);
 }
 
+.logo {
+  padding: var(--space-2);
+}
+
 .menuButton {
   display: none;
 }
@@ -43,7 +47,11 @@
   border-right: none;
 }
 
-@media (max-width: 900px) {
+.connectWallet {
+  flex-shrink: 0;
+}
+
+@media (max-width: 899.95px) {
   .logo {
     display: none;
   }
@@ -53,11 +61,7 @@
   }
 }
 
-@media (max-width: 600px) {
-  .element {
-    padding: 0 var(--space-1);
-  }
-
+@media (max-width: 599.95px) {
   .menuButton {
     padding-left: var(--space-2);
   }

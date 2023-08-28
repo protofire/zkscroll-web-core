@@ -14,7 +14,7 @@ const SafeLicenses = () => {
       <Box mb={4}>
         <Typography mb={3}>
           This page contains a list of attribution notices for third party software that may be contained in portions of
-          the Safe. We thank the open source community for all of their contributions.
+          the {'Safe{Wallet}'}. We thank the open source community for all of their contributions.
         </Typography>
         <Typography variant="h2" mb={2}>
           Android
@@ -393,14 +393,6 @@ const SafeLicenses = () => {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>@gnosis.pm/safe-deployments</TableCell>
-                <TableCell>
-                  <ExternalLink href="https://github.com/gnosis/safe-deployments/blob/main/LICENSE">
-                    https://github.com/gnosis/safe-deployments/blob/main/LICENSE
-                  </ExternalLink>
-                </TableCell>
-              </TableRow>
-              <TableRow>
                 <TableCell>@safe-global/safe-modules-deployments</TableCell>
                 <TableCell>
                   <ExternalLink href="https://github.com/safe-global/safe-modules-deployments/blob/main/LICENSE">
@@ -561,7 +553,7 @@ const SafeLicenses = () => {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>@web3-onboard/tallyho</TableCell>
+                <TableCell>@web3-onboard/taho</TableCell>
                 <TableCell>
                   <ExternalLink href="https://github.com/blocknative/web3-onboard/blob/main/LICENSE">
                     https://github.com/blocknative/web3-onboard/blob/main/LICENSE

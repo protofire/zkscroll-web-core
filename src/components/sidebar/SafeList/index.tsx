@@ -30,6 +30,9 @@ import useSafeInfo from '@/hooks/useSafeInfo'
 import Track from '@/components/common/Track'
 import { OVERVIEW_EVENTS } from '@/services/analytics/events/overview'
 import LoadingIcon from '@/public/images/common/loading.svg'
+import useWallet from '@/hooks/wallets/useWallet'
+import useConnectWallet from '@/components/common/ConnectWallet/useConnectWallet'
+import KeyholeIcon from '@/components/common/icons/KeyholeIcon'
 
 export const _shouldExpandSafeList = ({
   isCurrentChain,
@@ -58,7 +61,8 @@ export const _shouldExpandSafeList = ({
 }
 
 const MAX_EXPANDED_SAFES = 3
-const NO_SAFE_MESSAGE = 'Create a new safe or add'
+const NO_WALLET_MESSAGE = 'Connect a wallet to view your Safe Accounts\n or to create a new one'
+const NO_SAFE_MESSAGE = 'Create a new Safe Account or add'
 
 const SafeList = ({ closeDrawer }: { closeDrawer?: () => void }): ReactElement => {
   const router = useRouter()
@@ -67,12 +71,15 @@ const SafeList = ({ closeDrawer }: { closeDrawer?: () => void }): ReactElement =
   const { configs } = useChains()
   const ownedSafes = useOwnedSafes()
   const addedSafes = useAppSelector(selectAllAddedSafes)
+  const wallet = useWallet()
+  const handleConnect = useConnectWallet()
 
   const [open, setOpen] = useState<Record<string, boolean>>({})
   const toggleOpen = (chainId: string, open: boolean) => {
     setOpen((prev) => ({ ...prev, [chainId]: open }))
   }
 
+  const hasWallet = !!wallet
   const hasNoSafes = Object.keys(ownedSafes).length === 0 && Object.keys(addedSafes).length === 0
   const isWelcomePage = router.pathname === AppRoutes.welcome
   const isSingleTxPage = router.pathname === AppRoutes.transactions.tx
@@ -96,7 +103,7 @@ const SafeList = ({ closeDrawer }: { closeDrawer?: () => void }): ReactElement =
     <div className={css.container}>
       <div className={css.header}>
         <Typography variant="h4" display="inline" fontWeight={700}>
-          My Safes
+          My Safe Accounts
         </Typography>
 
         {!isWelcomePage && (
@@ -117,18 +124,37 @@ const SafeList = ({ closeDrawer }: { closeDrawer?: () => void }): ReactElement =
       </div>
 
       {hasNoSafes && (
-        <Box display="flex" flexDirection="column" alignItems="center" py={6}>
-          <SvgIcon component={LoadingIcon} inheritViewBox sx={{ width: '85px', height: '80px' }} />
-          <Typography variant="body2" color="primary.light" textAlign="center" mt={3}>
-            {!isWelcomePage ? (
-              <Link href={{ pathname: AppRoutes.welcome, query: router.query }} passHref>
-                <MuiLink onClick={closeDrawer}>{NO_SAFE_MESSAGE}</MuiLink>
-              </Link>
-            ) : (
-              <>{NO_SAFE_MESSAGE}</>
-            )}{' '}
-            an existing one
-          </Typography>
+        <Box display="flex" flexDirection="column" alignItems="center" py={10}>
+          {hasWallet ? (
+            <>
+              <SvgIcon component={LoadingIcon} inheritViewBox sx={{ width: '85px', height: '80px' }} />
+
+              <Typography variant="body2" color="primary.light" textAlign="center" mt={3}>
+                {!isWelcomePage ? (
+                  <Link href={{ pathname: AppRoutes.welcome, query: router.query }} passHref>
+                    <MuiLink onClick={closeDrawer}>{NO_SAFE_MESSAGE}</MuiLink>
+                  </Link>
+                ) : (
+                  <>{NO_SAFE_MESSAGE}</>
+                )}{' '}
+                an existing one
+              </Typography>
+            </>
+          ) : (
+            <Box display="flex" flexDirection="column" alignItems="center" gap={3} maxWidth={250}>
+              <Box display="flex" alignItems="center" justifyContent="center">
+                <KeyholeIcon />
+              </Box>
+
+              <Typography variant="body2" color="primary.light" textAlign="center" sx={{ textWrap: 'balance' }}>
+                {NO_WALLET_MESSAGE}
+              </Typography>
+
+              <Button onClick={handleConnect} variant="contained" size="stretched" disableElevation>
+                Connect wallet
+              </Button>
+            </Box>
+          )}
         </Box>
       )}
 
@@ -212,7 +238,7 @@ const SafeList = ({ closeDrawer }: { closeDrawer?: () => void }): ReactElement =
                 <>
                   <div onClick={() => toggleOpen(chain.chainId, !isOpen)} className={css.ownedLabelWrapper}>
                     <Typography variant="body2" display="inline" className={css.ownedLabel}>
-                      Safes owned on {chain.chainName} ({ownedSafesOnChain.length})
+                      Safe Accounts owned on {chain.chainName} ({ownedSafesOnChain.length})
                       <IconButton disableRipple>{isOpen ? <ExpandLess /> : <ExpandMore />}</IconButton>
                     </Typography>
                   </div>
