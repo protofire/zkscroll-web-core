@@ -45,7 +45,10 @@ const ReviewSignMessageOnChain = ({ message, method, requestId }: SignMessageOnC
   const isTextMessage = method === Methods.signMessage && typeof message === 'string'
   const isTypedMessage = method === Methods.signTypedMessage && isObjectEIP712TypedData(message)
 
-  const readOnlySignMessageLibContract = useMemo(() => getReadOnlySignMessageLibContract(chainId), [chainId])
+  const readOnlySignMessageLibContract = useMemo(
+    () => getReadOnlySignMessageLibContract(chainId, safe.version),
+    [chainId, safe.version],
+  )
   const signMessageAddress = readOnlySignMessageLibContract.getAddress()
 
   const [decodedMessage, readableMessage] = useMemo(() => {
@@ -72,6 +75,7 @@ const ReviewSignMessageOnChain = ({ message, method, requestId }: SignMessageOnC
       // the primary type. And there must only be one type that is not used by any other type.
       delete typesCopy.EIP712Domain
       txData = readOnlySignMessageLibContract.encode('signMessage', [
+        // @ts-ignore
         _TypedDataEncoder.hash(message.domain, typesCopy, message.message),
       ])
     }

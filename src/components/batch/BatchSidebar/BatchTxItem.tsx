@@ -1,5 +1,5 @@
 import { type SyntheticEvent, useMemo, useCallback } from 'react'
-import { Accordion, AccordionDetails, AccordionSummary, Box, ButtonBase, SvgIcon } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Box, ButtonBase, ListItem, SvgIcon } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import css from './styles.module.css'
 import { type DraftBatchItem } from '@/store/batchSlice'
@@ -12,6 +12,9 @@ import { MethodDetails } from '@/components/transactions/TxDetails/TxData/Decode
 import { TxDataRow } from '@/components/transactions/TxDetails/Summary/TxDataRow'
 import { dateString } from '@/utils/formatters'
 import { BATCH_EVENTS, trackEvent } from '@/services/analytics'
+import { TransactionInfoType } from '@safe-global/safe-gateway-typescript-sdk'
+import useABTesting from '@/services/tracking/useAbTesting'
+import { AbTest } from '@/services/tracking/abTesting'
 
 type BatchTxItemProps = DraftBatchItem & {
   id: string
@@ -30,6 +33,8 @@ const BatchTxItem = ({
   dragging = false,
   draggable = false,
 }: BatchTxItemProps) => {
+  const shouldDisplayHumanDescription = useABTesting(AbTest.HUMAN_DESCRIPTION)
+
   const txSummary = useMemo(
     () => ({
       timestamp,
@@ -55,9 +60,12 @@ const BatchTxItem = ({
   const handleExpand = () => {
     trackEvent(BATCH_EVENTS.BATCH_EXPAND_TX)
   }
+  const displayInfo =
+    (!txDetails.txInfo.richDecodedInfo && txDetails.txInfo.type !== TransactionInfoType.TRANSFER) ||
+    !shouldDisplayHumanDescription
 
   return (
-    <Box display="flex" gap={2}>
+    <ListItem disablePadding sx={{ gap: 2, alignItems: 'flex-start' }}>
       <div className={css.number}>{count}</div>
 
       <Accordion elevation={0} sx={{ flex: 1 }} onChange={handleExpand}>
@@ -75,15 +83,13 @@ const BatchTxItem = ({
 
             <TxType tx={txSummary} />
 
-            <Box flex={1}>
-              <TxInfo info={txDetails.txInfo} />
-            </Box>
+            <Box flex={1}>{displayInfo && <TxInfo info={txDetails.txInfo} />}</Box>
 
             {onDelete && (
               <>
                 <Box className={css.separator} />
 
-                <ButtonBase onClick={handleDelete} sx={{ p: 0.5 }}>
+                <ButtonBase onClick={handleDelete} title="Delete transaction" sx={{ p: 0.5 }}>
                   <SvgIcon component={DeleteIcon} inheritViewBox fontSize="small" />
                 </ButtonBase>
 
@@ -99,11 +105,13 @@ const BatchTxItem = ({
 
             <TxDataRow title="Created:">{timestamp ? dateString(timestamp) : null}</TxDataRow>
 
-            {txDetails.txData?.dataDecoded && <MethodDetails data={txDetails.txData.dataDecoded} />}
+            {txDetails.txData?.dataDecoded && (
+              <MethodDetails data={txDetails.txData.dataDecoded} addressInfoIndex={txDetails.txData.addressInfoIndex} />
+            )}
           </div>
         </AccordionDetails>
       </Accordion>
-    </Box>
+    </ListItem>
   )
 }
 
