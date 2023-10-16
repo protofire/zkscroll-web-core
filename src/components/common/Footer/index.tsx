@@ -46,7 +46,7 @@ const Footer = (): ReactElement | null => {
         {IS_OFFICIAL_HOST || IS_DEV ? (
           <>
             <li>
-              <Typography variant="caption">&copy;2022–{new Date().getFullYear()}</Typography>
+              <Typography variant="caption">&copy;{new Date().getFullYear()}</Typography>
             </li>
             <li>
               <FooterLink href="https://scroll.io/terms-and-conditions">Terms</FooterLink>
