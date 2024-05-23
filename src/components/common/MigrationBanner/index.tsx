@@ -91,7 +91,7 @@ export const MigrationBanner = ({ children }: { children?: ReactElement }): Reac
                 <ExternalLink href="https://app.safe.global/welcome?chain=scr" noIcon>
                   app.safe.global
                 </ExternalLink>
-                ! Created safes are already available there; to transfer local data (address book, settings, and
+                ! Created Safes are already available there; to transfer local data (address book, settings, and
                 variables), use the Export/Import functionality found on the{' '}
                 <Link style={{ textDecoration: 'underline' }} href={{ pathname: AppRoutes.settings.data, query }}>
                   Settings {'>'} Data page
@@ -109,7 +109,7 @@ export const MigrationBanner = ({ children }: { children?: ReactElement }): Reac
                       inputProps={{ 'aria-label': 'controlled' }}
                     />
                   }
-                  label="I have read the information above and I will take care of my safes"
+                  label="I have read the information above and I will take care of my Safes"
                 />
 
                 <Button
