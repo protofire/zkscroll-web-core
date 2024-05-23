@@ -439,8 +439,8 @@ const createSafeTheme = (mode: PaletteMode): Theme => {
             color: theme.palette.background.main,
             backgroundColor: theme.palette.text.primary,
             '& .MuiLink-root': {
-              color: isDarkMode ? theme.palette.background.main : theme.palette.secondary.main,
-              textDecorationColor: isDarkMode ? theme.palette.background.main : theme.palette.secondary.main,
+              color: isDarkMode ? theme.palette.primary.main : theme.palette.secondary.main,
+              textDecorationColor: isDarkMode ? theme.palette.primary.main : theme.palette.secondary.main,
             },
             '& .MuiLink-root:hover': {
               color: isDarkMode ? theme.palette.text.secondary : theme.palette.secondary.light,
