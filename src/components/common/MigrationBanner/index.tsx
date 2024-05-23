@@ -96,7 +96,7 @@ export const MigrationBanner = ({ children }: { children?: ReactElement }): Reac
                 <Link style={{ textDecoration: 'underline' }} href={{ pathname: AppRoutes.settings.data, query }}>
                   Settings {'>'} Data page
                 </Link>
-                Mainnet will no longer be supported here after June 20th, if you have unfinished transactions here,
+                . Mainnet will no longer be supported here after June 20th, if you have unfinished transactions here,
                 please finalize them before then! The Scroll Sepolia will remain supported on our interface.
               </Typography>
               <div className={css.buttons}>
