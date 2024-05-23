@@ -23,6 +23,7 @@ import { FEATURES } from '@/utils/chains'
 import { useHasFeature } from '@/hooks/useChains'
 import Track from '@/components/common/Track'
 import { OVERVIEW_EVENTS, OVERVIEW_LABELS } from '@/services/analytics'
+import { MigrationBanner } from '@/components/common/MigrationBanner'
 
 type HeaderProps = {
   onMenuToggle?: Dispatch<SetStateAction<boolean>>
@@ -73,6 +74,10 @@ const Header = ({ onMenuToggle, onBatchToggle }: HeaderProps): ReactElement => {
           <SafeTokenWidget />
         </div>
       )}
+
+      <div className={css.element}>
+        <MigrationBanner />
+      </div>
 
       <div className={css.element}>
         <PushNotificationsBanner>

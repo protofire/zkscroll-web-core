@@ -19,6 +19,7 @@ export enum FEATURES {
   RECOVERY = 'RECOVERY',
   SOCIAL_LOGIN = 'SOCIAL_LOGIN',
   COUNTERFACTUAL = 'COUNTERFACTUAL',
+  MIGRATION_BANNER = 'MIGRATION_BANNER',
 }
 
 export const hasFeature = (chain: ChainInfo, feature: FEATURES): boolean => {
