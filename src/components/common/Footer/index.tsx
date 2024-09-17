@@ -58,6 +58,11 @@ const Footer = (): ReactElement | null => {
             <li>
               <FooterLink href={getHref(AppRoutes.licenses)}>Licenses</FooterLink>
             </li>
+            <li>
+              <ExternalLink href={HELP_CENTER_URL} noIcon sx={{ span: { textDecoration: 'underline' } }}>
+                Help
+              </ExternalLink>
+            </li>
             {/*  <li>
               <FooterLink href={getHref(AppRoutes.imprint)}>Imprint</FooterLink>
             </li>
@@ -67,11 +72,7 @@ const Footer = (): ReactElement | null => {
             <li>
               <FooterLink href={getHref(AppRoutes.settings.index)}>Preferences</FooterLink>
             </li>
-            <li>
-              <ExternalLink href={HELP_CENTER_URL} noIcon sx={{ span: { textDecoration: 'underline' } }}>
-                Help
-              </ExternalLink>
-            </li> */}
+             */}
           </>
         ) : null}
 
