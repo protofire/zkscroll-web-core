@@ -14,11 +14,13 @@ import {
 // import BeamerIcon from '@/public/images/sidebar/whats-new.svg'
 import HelpCenterIcon from '@/public/images/sidebar/help-center.svg'
 import SuggestionIcon from '@/public/images/sidebar/lightbulb_icon.svg'
-import { ListItem } from '@mui/material'
+import { Link, ListItem, SvgIcon, Typography } from '@mui/material'
 import DebugToggle from '../DebugToggle'
 import { HELP_CENTER_URL, IS_PRODUCTION } from '@/config/constants'
 import Track from '@/components/common/Track'
 import { OVERVIEW_EVENTS } from '@/services/analytics/events/overview'
+import darkPalette from '@/components/theme/darkPalette'
+import ProtofireLogo from '@/public/images/protofire-logo.svg'
 // import { useCurrentChain } from '@/hooks/useChains'
 
 const SUGGESTION_PATH =
@@ -91,6 +93,22 @@ const SidebarFooter = (): ReactElement => {
           </a>
         </ListItem>
       </Track>
+      <ListItem>
+        <SidebarListItemText>
+          <Typography variant="caption">
+            Supported by{' '}
+            <SvgIcon
+              component={ProtofireLogo}
+              inheritViewBox
+              fontSize="small"
+              sx={{ verticalAlign: 'middle', mx: 0.5 }}
+            />
+            <Link href="https://protofire.io" sx={{ color: darkPalette.primary.main, textDecoration: 'none' }}>
+              Protofire
+            </Link>
+          </Typography>
+        </SidebarListItemText>
+      </ListItem>
     </SidebarList>
   )
 }
