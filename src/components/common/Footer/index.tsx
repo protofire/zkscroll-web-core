@@ -55,6 +55,9 @@ const Footer = (): ReactElement | null => {
               <FooterLink href="https://scroll.io/terms-and-conditions">Terms</FooterLink>
             </li>
             <li>
+              <FooterLink href={getHref(AppRoutes.cookie)}>Cookie policy</FooterLink>
+            </li>
+            <li>
               <FooterLink href="https://scroll.io/privacy-policy">Privacy</FooterLink>
             </li>
             <li>
