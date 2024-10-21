@@ -21,6 +21,7 @@ import Track from '@/components/common/Track'
 import { OVERVIEW_EVENTS } from '@/services/analytics/events/overview'
 import darkPalette from '@/components/theme/darkPalette'
 import ProtofireLogo from '@/public/images/protofire-logo.svg'
+import { useCurrentChain } from '@/hooks/useChains'
 // import { useCurrentChain } from '@/hooks/useChains'
 
 const SUGGESTION_PATH =
