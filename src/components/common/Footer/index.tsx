@@ -61,9 +61,6 @@ const Footer = (): ReactElement | null => {
               <FooterLink href="https://scroll.io/privacy-policy">Privacy</FooterLink>
             </li>
             <li>
-              <FooterLink href={getHref(AppRoutes.licenses)}>Licenses</FooterLink>
-            </li>
-            <li>
               <ExternalLink href={HELP_CENTER_URL} noIcon sx={{ span: { textDecoration: 'underline' } }}>
                 Help
               </ExternalLink>
