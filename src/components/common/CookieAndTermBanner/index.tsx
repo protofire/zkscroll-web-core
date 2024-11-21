@@ -86,7 +86,7 @@ export const CookieAndTermBanner = ({
           <Grid item xs>
             <Typography variant="body2" mb={2}>
               By browsing this page, you accept our{' '}
-              <Link href={AppRoutes.terms}>
+              <Link href={"https://scroll.io/terms-and-conditions"}>
                 <u>Terms & Conditions </u>
               </Link>{' '}
               and the use of necessary cookies.
