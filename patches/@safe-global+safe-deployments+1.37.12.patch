@@ -1,0 +1,84 @@
+diff --git a/node_modules/@safe-global/safe-deployments/dist/assets/v1.4.1/safe_migration.json b/node_modules/@safe-global/safe-deployments/dist/assets/v1.4.1/safe_migration.json
+index adcf10f..73479f5 100644
+--- a/node_modules/@safe-global/safe-deployments/dist/assets/v1.4.1/safe_migration.json
++++ b/node_modules/@safe-global/safe-deployments/dist/assets/v1.4.1/safe_migration.json
+@@ -32,7 +32,8 @@
+         "84532": "canonical",
+         "534352": "canonical",
+         "11155111": "canonical",
+-        "1313161554": "canonical"
++        "1313161554": "canonical",
++        "534351": "canonical"
+     },
+     "abi": [
+         {
+diff --git a/node_modules/@safe-global/safe-deployments/dist/assets/v1.4.1/safe_to_l2_migration.json b/node_modules/@safe-global/safe-deployments/dist/assets/v1.4.1/safe_to_l2_migration.json
+index bd0078a..8c4a676 100644
+--- a/node_modules/@safe-global/safe-deployments/dist/assets/v1.4.1/safe_to_l2_migration.json
++++ b/node_modules/@safe-global/safe-deployments/dist/assets/v1.4.1/safe_to_l2_migration.json
+@@ -32,7 +32,8 @@
+         "84532": "canonical",
+         "534352": "canonical",
+         "11155111": "canonical",
+-        "1313161554": "canonical"
++        "1313161554": "canonical",
++        "534351": "canonical"
+     },
+     "abi": [
+         {
+diff --git a/node_modules/@safe-global/safe-deployments/dist/assets/v1.4.1/safe_to_l2_setup.json b/node_modules/@safe-global/safe-deployments/dist/assets/v1.4.1/safe_to_l2_setup.json
+index 5deb8d6..725a093 100644
+--- a/node_modules/@safe-global/safe-deployments/dist/assets/v1.4.1/safe_to_l2_setup.json
++++ b/node_modules/@safe-global/safe-deployments/dist/assets/v1.4.1/safe_to_l2_setup.json
+@@ -32,7 +32,8 @@
+         "84532": "canonical",
+         "534352": "canonical",
+         "11155111": "canonical",
+-        "1313161554": "canonical"
++        "1313161554": "canonical",
++        "534351": "canonical"
+     },
+     "abi": [
+         {
+diff --git a/node_modules/@safe-global/safe-deployments/src/assets/v1.4.1/safe_migration.json b/node_modules/@safe-global/safe-deployments/src/assets/v1.4.1/safe_migration.json
+index c799870..9fa7914 100644
+--- a/node_modules/@safe-global/safe-deployments/src/assets/v1.4.1/safe_migration.json
++++ b/node_modules/@safe-global/safe-deployments/src/assets/v1.4.1/safe_migration.json
+@@ -32,7 +32,8 @@
+     "84532": "canonical",
+     "534352": "canonical",
+     "11155111": "canonical",
+-    "1313161554": "canonical"
++    "1313161554": "canonical",
++    "534351": "canonical"
+   },
+   "abi": [
+     {
+diff --git a/node_modules/@safe-global/safe-deployments/src/assets/v1.4.1/safe_to_l2_migration.json b/node_modules/@safe-global/safe-deployments/src/assets/v1.4.1/safe_to_l2_migration.json
+index 5d5552b..3f7d39f 100644
+--- a/node_modules/@safe-global/safe-deployments/src/assets/v1.4.1/safe_to_l2_migration.json
++++ b/node_modules/@safe-global/safe-deployments/src/assets/v1.4.1/safe_to_l2_migration.json
+@@ -32,7 +32,8 @@
+     "84532": "canonical",
+     "534352": "canonical",
+     "11155111": "canonical",
+-    "1313161554": "canonical"
++    "1313161554": "canonical",
++    "534351": "canonical"
+   },
+   "abi": [
+     {
+diff --git a/node_modules/@safe-global/safe-deployments/src/assets/v1.4.1/safe_to_l2_setup.json b/node_modules/@safe-global/safe-deployments/src/assets/v1.4.1/safe_to_l2_setup.json
+index f113dc9..d5d420d 100644
+--- a/node_modules/@safe-global/safe-deployments/src/assets/v1.4.1/safe_to_l2_setup.json
++++ b/node_modules/@safe-global/safe-deployments/src/assets/v1.4.1/safe_to_l2_setup.json
+@@ -32,7 +32,8 @@
+     "84532": "canonical",
+     "534352": "canonical",
+     "11155111": "canonical",
+-    "1313161554": "canonical"
++    "1313161554": "canonical",
++    "534351": "canonical"
+   },
+   "abi": [
+     {
