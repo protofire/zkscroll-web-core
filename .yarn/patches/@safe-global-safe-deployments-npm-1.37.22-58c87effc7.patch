@@ -1,0 +1,36 @@
+diff --git a/dist/assets/v1.4.1/safe_migration.json b/dist/assets/v1.4.1/safe_migration.json
+index 70eb17f73ccd77b91f268e9b114eb621f0b067de..b2f3449b212d94da9684fecd04914714368385d7 100644
+--- a/dist/assets/v1.4.1/safe_migration.json
++++ b/dist/assets/v1.4.1/safe_migration.json
+@@ -31,6 +31,7 @@
+         "1337": "canonical",
+         "1516": "canonical",
+         "1750": "canonical",
++        "534351": "canonical",
+         "1923": "canonical",
+         "1924": "canonical",
+         "2187": "canonical",
+diff --git a/dist/assets/v1.4.1/safe_to_l2_migration.json b/dist/assets/v1.4.1/safe_to_l2_migration.json
+index 3d2f15406e76b54a66796a3b9b4f95558301e206..7e91533830775a1ab529978c6ce94fc3949ac1b4 100644
+--- a/dist/assets/v1.4.1/safe_to_l2_migration.json
++++ b/dist/assets/v1.4.1/safe_to_l2_migration.json
+@@ -27,6 +27,7 @@
+         "970": "canonical",
+         "995": "canonical",
+         "1001": "canonical",
++        "534351": "canonical",
+         "1101": "canonical",
+         "1337": "canonical",
+         "1516": "canonical",
+diff --git a/dist/assets/v1.4.1/safe_to_l2_setup.json b/dist/assets/v1.4.1/safe_to_l2_setup.json
+index a8cbe2b155c3e78b0290100952a74a9d2c08881f..00bdccab9a624d244b8a6a4cfe440a70dbd32246 100644
+--- a/dist/assets/v1.4.1/safe_to_l2_setup.json
++++ b/dist/assets/v1.4.1/safe_to_l2_setup.json
+@@ -26,6 +26,7 @@
+         "938": "canonical",
+         "970": "canonical",
+         "995": "canonical",
++        "534351": "canonical",
+         "1001": "canonical",
+         "1101": "canonical",
+         "1337": "canonical",
