@@ -25,7 +25,6 @@ import { FEATURES } from '@/utils/chains'
 import { useHasFeature } from '@/hooks/useChains'
 import Track from '@/components/common/Track'
 import { OVERVIEW_EVENTS, OVERVIEW_LABELS } from '@/services/analytics'
-import { MigrationBanner } from '@/components/common/MigrationBanner'
 import { useSafeTokenEnabled } from '@/hooks/useSafeTokenEnabled'
 import { useIsOfficialHost } from '@/hooks/useIsOfficialHost'
 import { BRAND_LOGO, BRAND_NAME } from '@/config/constants'
@@ -100,9 +99,9 @@ const Header = ({ onMenuToggle, onBatchToggle }: HeaderProps): ReactElement => {
         </div>
       )}
 
-      <div className={css.element}>
+      {/* <div className={css.element}>
         <MigrationBanner />
-      </div>
+      </div> */}
 
       <div className={css.element}>
         <NotificationCenter />

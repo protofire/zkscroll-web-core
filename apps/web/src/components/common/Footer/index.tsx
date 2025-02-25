@@ -34,7 +34,6 @@ const FooterLink = ({ children, href }: { children: ReactNode; href: string }): 
 
 const Footer = (): ReactElement | null => {
   const router = useRouter()
-  const isOfficialHost = useIsOfficialHost()
 
   if (!footerPages.some((path) => router.pathname.startsWith(path))) {
     return null
@@ -47,26 +46,24 @@ const Footer = (): ReactElement | null => {
   return (
     <footer className={css.container}>
       <ul>
-        {isOfficialHost ? (
-          <>
-            <li>
-              <Typography variant="caption">&copy;{new Date().getFullYear()}</Typography>
-            </li>
-            <li>
-              <FooterLink href="https://scroll.io/terms-and-conditions">Terms</FooterLink>
-            </li>
-            <li>
-              <FooterLink href={getHref(AppRoutes.cookie)}>Cookie policy</FooterLink>
-            </li>
-            <li>
-              <FooterLink href="https://scroll.io/privacy-policy">Privacy</FooterLink>
-            </li>
-            <li>
-              <ExternalLink href={HELP_CENTER_URL} noIcon sx={{ span: { textDecoration: 'underline' } }}>
-                Help
-              </ExternalLink>
-            </li>
-            {/*  <li>
+        <li>
+          <Typography variant="caption">&copy;{new Date().getFullYear()}</Typography>
+        </li>
+        <li>
+          <FooterLink href="https://scroll.io/terms-and-conditions">Terms</FooterLink>
+        </li>
+        <li>
+          <FooterLink href={getHref(AppRoutes.cookie)}>Cookie policy</FooterLink>
+        </li>
+        <li>
+          <FooterLink href="https://scroll.io/privacy-policy">Privacy</FooterLink>
+        </li>
+        <li>
+          <ExternalLink href={HELP_CENTER_URL} noIcon sx={{ span: { textDecoration: 'underline' } }}>
+            Help
+          </ExternalLink>
+        </li>
+        {/*  <li>
               <FooterLink href={getHref(AppRoutes.imprint)}>Imprint</FooterLink>
             </li>
             <li>
@@ -76,9 +73,6 @@ const Footer = (): ReactElement | null => {
               <FooterLink href={getHref(AppRoutes.settings.index)}>Preferences</FooterLink>
             </li>
              */}
-          </>
-        ) : null}
-
         <li>
           <ExternalLink href={`${packageJson.homepage}/releases/tag/v${packageJson.version}`} noIcon>
             <SvgIcon component={GitHubIcon} inheritViewBox fontSize="inherit" sx={{ mr: 0.5 }} /> v{packageJson.version}
