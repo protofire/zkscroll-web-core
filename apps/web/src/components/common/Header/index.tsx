@@ -14,8 +14,6 @@ import SafeTokenWidget from '@/components/common/SafeTokenWidget'
 import NotificationCenter from '@/components/notification-center/NotificationCenter'
 import { AppRoutes } from '@/config/routes'
 import SafeLogo from '@/public/images/logo.svg'
-import SafeInvertedLogo from '@/public/images/scroll-inverted-logo.svg'
-import { useDarkMode } from '@/hooks/useDarkMode'
 import SafeLogoMobile from '@/public/images/logo-no-text.svg'
 import Link from 'next/link'
 import useSafeAddress from '@/hooks/useSafeAddress'
@@ -27,7 +25,7 @@ import Track from '@/components/common/Track'
 import { OVERVIEW_EVENTS, OVERVIEW_LABELS } from '@/services/analytics'
 import { useSafeTokenEnabled } from '@/hooks/useSafeTokenEnabled'
 import { useIsOfficialHost } from '@/hooks/useIsOfficialHost'
-import { BRAND_LOGO, BRAND_NAME } from '@/config/constants'
+import { BRAND_NAME } from '@/config/constants'
 
 type HeaderProps = {
   onMenuToggle?: Dispatch<SetStateAction<boolean>>
@@ -48,7 +46,6 @@ const Header = ({ onMenuToggle, onBatchToggle }: HeaderProps): ReactElement => {
   const isProposer = useIsWalletProposer()
   const isSafeOwner = useIsSafeOwner()
   const router = useRouter()
-  const isDarkMode = useDarkMode()
   const enableWc = useHasFeature(FEATURES.NATIVE_WALLETCONNECT)
   const isOfficialHost = useIsOfficialHost()
 

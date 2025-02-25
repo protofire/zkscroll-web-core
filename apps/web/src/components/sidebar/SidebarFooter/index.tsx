@@ -7,11 +7,10 @@ import {
   SidebarListItemIcon,
   SidebarListItemText,
 } from '@/components/sidebar/SidebarList'
-import { BEAMER_SELECTOR, loadBeamer } from '@/services/beamer'
-import { useAppDispatch, useAppSelector } from '@/store'
+import { loadBeamer } from '@/services/beamer'
+import { useAppSelector } from '@/store'
 import { CookieAndTermType, hasConsentFor } from '@/store/cookiesAndTermsSlice'
-import { openCookieBanner } from '@/store/popupSlice'
-import BeamerIcon from '@/public/images/sidebar/whats-new.svg'
+//import BeamerIcon from '@/public/images/sidebar/whats-new.svg'
 import HelpCenterIcon from '@/public/images/sidebar/help-center.svg'
 import SuggestionIcon from '@/public/images/sidebar/lightbulb_icon.svg'
 import { Link, ListItem, SvgIcon, Typography } from '@mui/material'
@@ -28,7 +27,6 @@ const SUGGESTION_PATH =
   'https://docs.google.com/forms/d/e/1FAIpQLSfojsADYCiWq9AqbLqsUTzCDSpA8FMgdAQp0Pyl0BOeurlq9A/viewform?usp=sf_link'
 
 const SidebarFooter = (): ReactElement => {
-  const dispatch = useAppDispatch()
   const chain = useCurrentChain()
   const hasBeamerConsent = useAppSelector((state) => hasConsentFor(state, CookieAndTermType.UPDATES))
 
@@ -39,11 +37,11 @@ const SidebarFooter = (): ReactElement => {
     }
   }, [hasBeamerConsent, chain?.shortName])
 
-  const handleBeamer = () => {
-    if (!hasBeamerConsent) {
-      dispatch(openCookieBanner({ warningKey: CookieAndTermType.UPDATES }))
-    }
-  }
+  // const handleBeamer = () => {
+  //   if (!hasBeamerConsent) {
+  //     dispatch(openCookieBanner({ warningKey: CookieAndTermType.UPDATES }))
+  //   }
+  // }
 
   return (
     <SidebarList>

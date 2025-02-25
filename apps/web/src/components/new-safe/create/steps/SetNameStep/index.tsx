@@ -142,11 +142,11 @@ function SetNameStep({
           </Grid>
           <Typography variant="body2" mt={2}>
             By continuing, you agree to our{' '}
-            <ExternalLink noIcon href={'https://scroll.io/terms-and-conditions'}>
+            <ExternalLink noIcon href="https://scroll.io/terms-and-conditions">
               <MUILink>terms of use</MUILink>
             </ExternalLink>{' '}
             and{' '}
-            <ExternalLink noIcon href={'https://scroll.io/privacy-policy'}>
+            <ExternalLink noIcon href="https://scroll.io/privacy-policy">
               <MUILink>privacy policy</MUILink>
             </ExternalLink>
             .
