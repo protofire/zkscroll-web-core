@@ -22,7 +22,8 @@
     "@cowprotocol/events": "1.3.0",
     "@safe-global/safe-deployments@npm:^1.37.22": "patch:@safe-global/safe-deployments@npm%3A1.37.22#~/.yarn/patches/@safe-global-safe-deployments-npm-1.37.22-58c87effc7.patch",
     "@safe-global/safe-modules-deployments@npm:^2.2.1": "patch:@safe-global/safe-modules-deployments@npm%3A2.2.4#~/.yarn/patches/@safe-global-safe-modules-deployments-npm-2.2.4-b803711604.patch",
-    "@safe-global/safe-modules-deployments@npm:^2.2.4": "patch:@safe-global/safe-modules-deployments@npm%3A2.2.4#~/.yarn/patches/@safe-global-safe-modules-deployments-npm-2.2.4-b803711604.patch"
+    "@safe-global/safe-modules-deployments@npm:^2.2.4": "patch:@safe-global/safe-modules-deployments@npm%3A2.2.4#~/.yarn/patches/@safe-global-safe-modules-deployments-npm-2.2.4-b803711604.patch",
+    "@ethersproject/signing-key/elliptic": "^6.6.1"
   },
   "devDependencies": {
     "husky": "^9.1.6",
