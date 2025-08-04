@@ -15,6 +15,7 @@ import { FEATURES } from '@/utils/chains'
 import css from './styles.module.css'
 import { InconsistentSignerSetupWarning } from '@/features/multichain/components/SignerSetupWarning/InconsistentSignerSetupWarning'
 import useIsStakingBannerEnabled from '@/features/stake/hooks/useIsStakingBannerEnabled'
+import { ZkScrollSunsetWarning } from '@/features/warningBanner/ScrollSunsetWarning'
 
 const RecoveryHeader = dynamic(() => import('@/features/recovery/components/RecoveryHeader'))
 
@@ -31,6 +32,10 @@ const Dashboard = (): ReactElement => {
 
         <Grid item xs={12}>
           <InconsistentSignerSetupWarning />
+        </Grid>
+
+        <Grid item xs={12}>
+          <ZkScrollSunsetWarning />
         </Grid>
 
         <Grid item xs={12}>
