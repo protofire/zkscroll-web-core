@@ -12,7 +12,7 @@ export const ZkScrollSunsetWarning = () => {
   return (
     <ErrorMessage level="warning" title="Safe on Scroll Sunsetting">
       <Typography display="inline" mr={1}>
-        Dear users, Our Support for Safe on Scroll will end on August 31th, 2025.{' '}
+        Dear users, Our Support for Safe on Scroll will end on August 31th, 2025.
       </Typography>
       <Typography display="inline">
         You can proceed using Scroll through the {' '}
