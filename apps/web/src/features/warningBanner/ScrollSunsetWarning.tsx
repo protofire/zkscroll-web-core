@@ -15,14 +15,9 @@ export const ZkScrollSunsetWarning = () => {
         Dear users, Our Support for Safe on Scroll will end on August 31th, 2025.
       </Typography>
       <Typography display="inline">
-        You can proceed using Scroll through the {' '}
-        <ExternalLink href="https://app.safe.global/welcome">
-          Safe Global 
-        </ExternalLink>{' '}
-        and Scroll testnet through the{' '}
-        <ExternalLink href="https://docs.safe.global/advanced/cli-overview">
-          Safe CLI
-        </ExternalLink>{' '} utility
+        You can proceed using Scroll through the{' '}
+        <ExternalLink href="https://app.safe.global/welcome">Safe Global</ExternalLink> and Scroll testnet through the{' '}
+        <ExternalLink href="https://docs.safe.global/advanced/cli-overview">Safe CLI</ExternalLink> utility
       </Typography>
     </ErrorMessage>
   )
